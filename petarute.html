@@ -41,7 +41,7 @@
             color: #555;
         }
 
-        .back-link {
+        .back-link, .animate-btn {
             display: block;
             text-align: center;
             margin-bottom: 20px;
@@ -53,10 +53,24 @@
             color: #00796b;
             font-weight: 500;
             transition: background 0.3s;
+            border: none;
+            cursor: pointer;
         }
 
-        .back-link:hover {
+        .animate-btn {
+            background: linear-gradient(90deg, #00796b 0%, #004d40 100%);
+            color: white;
+            margin: 10px auto;
+            width: 200px;
+            font-size: 1rem;
+        }
+
+        .animate-btn:hover, .back-link:hover {
             background: #f0f8f0;
+        }
+
+        .animate-btn:hover {
+            background: #004d40;
         }
 
         #map {
@@ -125,13 +139,18 @@
             #map {
                 height: 70vh;
             }
+
+            .animate-btn {
+                width: 250px;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Peta Rute Interaktif<br>Petualangan Nusantara</h1>
-    <p class="intro">Zoom, pan, dan klik garis rute untuk detail waktu tempuh leg. Marker biru untuk titik utama.</p>
-    <a href="index.html" class="back-link">← Kembali ke Timeline Perjalanan</a>
+    <p class="intro">Zoom, pan, dan klik garis rute untuk detail waktu tempuh leg. Marker biru untuk titik utama. Klik tombol untuk animasi kapal!</p>
+    <button class="animate-btn" onclick="startAnimation()">🚢 Mulai Animasi Gerakan Kapal</button>
+    <a href="perjalanan-nusantara.html" class="back-link">← Kembali ke Timeline Perjalanan</a>
 
     <div id="map"></div>
 
@@ -141,6 +160,7 @@
             <li><strong>Marker Biru:</strong> Titik Keberangkatan/Tujuan (Klik untuk info segmen)</li>
             <li><strong>Garis Merah:</strong> Rute Laut Utama (Kapal Pelni/Perintis) - Klik untuk jam tempuh</li>
             <li><strong>Garis Hijau:</strong> Rute Darat Pendek (Bus/Ojek) - Klik untuk jam tempuh</li>
+            <li><strong>🚢 Kapal Animasi:</strong> Gerakan sepanjang rute saat tombol ditekan</li>
             <li>Total Rute: ~75 Hari, 9 Segmen</li>
         </ul>
     </div>
@@ -162,8 +182,8 @@
         // Updated Route Points with Accurate Coordinates
         const points = [
             { name: 'Jakarta', lat: -6.2088, lng: 106.8456, seg: '1. Start' },
-            { name: 'Jemaja (Letung)', lat: 2.9642, lng: 105.7539, seg: '2. Jemaja' }, // Accurate from search
-            { name: 'Tambelan', lat: 0.9755, lng: 107.5617, seg: '3. Tambelan' }, // Accurate from search
+            { name: 'Jemaja (Letung)', lat: 2.9642, lng: 105.7539, seg: '2. Jemaja' },
+            { name: 'Tambelan', lat: 0.9755, lng: 107.5617, seg: '3. Tambelan' },
             { name: 'Pontianak', lat: 0, lng: 109.35, seg: '4. Pontianak' },
             { name: 'Pangkalan Bun', lat: -2.7, lng: 111.9, seg: '5. Pangkalan Bun' },
             { name: 'Banjarmasin', lat: -3.32, lng: 114.59, seg: '6. Banjarmasin' },
@@ -201,15 +221,72 @@
             { from: 8, to: 9, duration: '~49 jam', color: 'red' } // Makassar → Jakarta
         ];
 
+        let polylines = []; // Store polylines for animation
+
         // Add Individual Polylines for Each Leg
         legs.forEach((leg, index) => {
             const coords = [[points[leg.from].lat, points[leg.from].lng], [points[leg.to].lat, points[leg.to].lng]];
-            L.polyline(coords, {
+            const polyline = L.polyline(coords, {
                 color: leg.color,
                 weight: 4,
                 opacity: 0.8
             }).addTo(map).bindPopup(`<b>Leg ${index + 1}</b><br>${points[leg.from].name} → ${points[leg.to].name}<br>Waktu Tempuh: ${leg.duration}`);
+            polylines.push(polyline);
         });
+
+        // Ship Icon for Animation (Custom Icon with Boat Emoji)
+        const shipIcon = L.divIcon({
+            className: 'ship-icon',
+            html: '🚢',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        let shipMarker; // Will hold the moving ship
+        let animationInterval;
+        let currentLeg = 0;
+        let progress = 0; // 0 to 1 for each leg
+
+        function startAnimation() {
+            if (animationInterval) clearInterval(animationInterval); // Reset if running
+
+            // Start at Jakarta
+            shipMarker = L.marker([points[0].lat, points[0].lng], { icon: shipIcon }).addTo(map);
+            map.panTo([points[0].lat, points[0].lng]);
+
+            currentLeg = 0;
+            progress = 0;
+
+            // Animate through legs
+            animationInterval = setInterval(() => {
+                if (currentLeg >= legs.length) {
+                    clearInterval(animationInterval);
+                    shipMarker.setPopupContent('<b>Selesai!</b><br>Kembali ke Jakarta. Total ~75 hari.').openPopup();
+                    return;
+                }
+
+                const leg = legs[currentLeg];
+                const start = [points[leg.from].lat, points[leg.from].lng];
+                const end = [points[leg.to].lat, points[leg.to].lng];
+
+                // Interpolate position
+                const lat = start[0] + (end[0] - start[0]) * progress;
+                const lng = start[1] + (end[1] - start[1]) * progress;
+
+                shipMarker.setLatLng([lat, lng]);
+                map.panTo([lat, lng], { animate: true, duration: 0.5 });
+
+                progress += 0.01; // Speed: adjust for slower/faster
+
+                if (progress >= 1) {
+                    progress = 0;
+                    currentLeg++;
+                    if (currentLeg < legs.length) {
+                        shipMarker.setPopupContent(`<b>Leg ${currentLeg + 1}</b><br>Menuju ${points[legs[currentLeg].to].name}<br>Estimasi: ${legs[currentLeg].duration}`).openPopup();
+                    }
+                }
+            }, 100); // Update every 100ms for smooth animation
+        }
 
         // Fit bounds to show full route
         const allCoords = points.map(p => [p.lat, p.lng]);
