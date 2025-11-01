@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Petualangan Nusantara: Rute Laut Epic</title>
+    <title>Peta Rute Interaktif: Petualangan Nusantara</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* Enhanced Mobile-First CSS: Compact, Engaging, Collapsible */
+        /* Mobile-First CSS for Map Page */
         * {
             margin: 0;
             padding: 0;
@@ -14,11 +15,9 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.5;
-            color: #333;
             background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
-            padding: 10px;
             min-height: 100vh;
+            padding: 10px;
         }
 
         h1 {
@@ -42,7 +41,7 @@
             color: #555;
         }
 
-        .map-link {
+        .back-link {
             display: block;
             text-align: center;
             margin-bottom: 20px;
@@ -56,215 +55,52 @@
             transition: background 0.3s;
         }
 
-        .map-link:hover {
+        .back-link:hover {
             background: #f0f8f0;
         }
 
-        /* Compact Timeline: Accordion-Style for Mobile */
-        .timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 100%;
-            margin: 0 auto 30px;
-        }
-
-        .timeline-item {
-            background: white;
+        #map {
+            height: 60vh;
+            width: 100%;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border-left: 4px solid #00796b;
+            margin-bottom: 20px;
         }
 
-        .timeline-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-        }
-
-        .timeline-header {
+        .legend {
+            background: white;
             padding: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(90deg, #00796b 0%, #004d40 100%);
-            color: white;
-            font-weight: 500;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 10px;
         }
 
-        .timeline-header::before {
-            content: '⛴️';
-            font-size: 1.2rem;
-        }
-
-        .timeline-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            background: #f8f9fa;
-        }
-
-        .timeline-item.active .timeline-content {
-            max-height: 500px; /* Adjust based on content */
-            padding: 15px;
-        }
-
-        .timeline-content h3 {
-            margin-bottom: 10px;
+        .legend h3 {
             color: #00796b;
+            margin-bottom: 10px;
             font-size: 1.1rem;
         }
 
-        .timeline-content p {
+        .legend ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .legend li {
             margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
             font-size: 0.9rem;
         }
 
-        .balloon {
-            visibility: hidden;
-            width: 280px;
-            background: #fff;
-            color: #333;
-            text-align: left;
-            border-radius: 8px;
-            padding: 12px;
-            position: absolute;
-            z-index: 10;
-            bottom: 100%;
-            left: 50%;
-            margin-left: -140px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.85rem;
-        }
-
-        .balloon::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #fff transparent transparent transparent;
-        }
-
-        .timeline-header:hover .balloon {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Table Section: Compact & Scrollable */
-        .table-section {
-            margin: 20px 0;
-            overflow-x: auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .table-section h2 {
-            padding: 15px;
-            text-align: center;
-            color: #00796b;
-            font-size: 1.2rem;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-
-        th, td {
-            padding: 10px 8px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        th {
-            background-color: #00796b;
-            color: white;
-            font-weight: 500;
-        }
-
-        tr.main-row {
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        tr.main-row:hover {
-            background: #f0f8f0;
-        }
-
-        .detail-row {
-            display: none;
-            background: #f8f9fa;
-            font-size: 0.8rem;
-        }
-
-        .detail-row td {
-            padding: 12px 8px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .detail-row ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .detail-row li {
-            margin-bottom: 4px;
-            padding-left: 15px;
-            position: relative;
-        }
-
-        .detail-row li::before {
+        .legend li::before {
             content: '•';
             position: absolute;
             left: 0;
             color: #00796b;
-        }
-
-        /* Summary Section: Card Grid, Mobile Stack */
-        .summary-section {
-            margin: 20px 0;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .summary-section h2 {
-            padding: 15px;
-            text-align: center;
-            color: #00796b;
             font-size: 1.2rem;
-            border-bottom: 1px solid #e0e0e0;
         }
 
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            padding: 15px;
-        }
-
-        .summary-item {
-            background: linear-gradient(135deg, #f0f8f0, #e8f5e8);
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 500;
-            color: #00796b;
-            border: 1px solid #c8e6c9;
-        }
-
-        /* Footer */
         footer {
             text-align: center;
             margin-top: 30px;
@@ -274,28 +110,7 @@
             border-top: 1px solid #e0e0e0;
         }
 
-        /* Animations for Engagement */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .timeline-item {
-            animation: fadeInUp 0.6s ease forwards;
-            opacity: 0;
-        }
-
-        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
-        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
-        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
-        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
-        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
-        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
-        .timeline-item:nth-child(7) { animation-delay: 0.7s; }
-        .timeline-item:nth-child(8) { animation-delay: 0.8s; }
-        .timeline-item:nth-child(9) { animation-delay: 0.9s; }
-
-        /* Desktop: Wider Layout */
+        /* Desktop Enhancements */
         @media (min-width: 768px) {
             body {
                 padding: 20px;
@@ -307,178 +122,86 @@
                 font-size: 2rem;
             }
 
-            .timeline {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: space-between;
-            }
-
-            .timeline-item {
-                width: calc(50% - 10px);
-                margin-bottom: 20px;
-            }
-
-            .summary-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            table {
-                font-size: 1rem;
-            }
-
-            th, td {
-                padding: 12px 12px;
+            #map {
+                height: 70vh;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Petualangan Nusantara<br>Rute Laut Epic</h1>
-    <p class="intro">Klik header timeline untuk detail segmen.</p>
-    <a href="petarute.html" class="map-link">🗺️ Lihat Peta Rute Interaktif</a>
+    <h1>Peta Rute Interaktif<br>Petualangan Nusantara</h1>
+    <p class="intro">Zoom, pan, dan klik marker untuk detail segmen rute laut/darat. Rute approximate berdasarkan koordinat utama.</p>
+    <a href="perjalanan-nusantara.html" class="back-link">← Kembali ke Timeline Perjalanan</a>
 
-    <div class="timeline">
-        <div class="timeline-item">
-            <div class="timeline-header" data-duration="~44 jam" data-cost="Rp 392.000">
-                1. Jakarta → Jemaja (5-7 Nov)
-                <div class="balloon">
-                    <strong>Quick Stats:</strong><br>Durasi: ~44 jam<br>Biaya: Rp 392.000<br>Highlight: Pantai & Trekking
-                </div>
-            </div>
-            <div class="timeline-content">
-                <h3>Kapal: KM Bukit Raya</h3>
-                <p><strong>Eksplorasi (5 Hari):</strong> Pantai Cemara snorkeling, Bukit Teletak trekking, boat Pulau Penjalin.</p>
-                <p><strong>Biaya Lokal:</strong> Penginapan Rp 750.000, Makan/Transport Rp 500.000, Aktivitas Rp 280.000. Total: Rp 1.530.000</p>
-            </div>
-        </div>
+    <div id="map"></div>
 
-        <div class="timeline-item">
-            <div class="timeline-header" data-duration="~19 jam" data-cost="Rp 100.000">
-                2. Jemaja → Tambelan (12-13 Nov)
-                <div class="balloon">
-                    <strong>Quick Stats:</strong><br>Durasi: ~19 jam<br>Biaya: Rp 100.000<br>Highlight: Diving & Boat
-                </div>
-            </div>
-            <div class="timeline-content">
-                <h3>Kapal: KM Sabuk Nusantara 36</h3>
-                <p><strong>Eksplorasi (6 Hari):</strong> Diving Nipah, boat Pulau Uwi, kayaking laguna, desa adat.</p>
-                <p><strong>Biaya Lokal:</strong> Penginapan Rp 1.200.000, Makan/Transport Rp 420.000, Aktivitas Rp 550.000. Total: Rp 2.170.000</p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-header" data-duration="~16 jam" data-cost="Rp 150.000">
-                3. Tambelan → Pontianak (19-20 Nov)
-                <div class="balloon">
-                    <strong>Quick Stats:</strong><br>Durasi: ~16 jam<br>Biaya: Rp 150.000<br>Highlight: Khatulistiwa
-                </div>
-            </div>
-            <div class="timeline-content">
-                <h3>Kapal: KM Sabuk Nusantara 30</h3>
-                <p><strong>Eksplorasi (3 Hari):</strong> Monumen Khatulistiwa, pasar terapung, Taman Nasional Gunung Niut.</p>
-                <p><strong>Biaya Lokal:</strong> Penginapan Rp 600.000, Makan/Transport Rp 210.000, Aktivitas Rp 170.000. Total: Rp 980.000</p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-header" data-duration="~40 jam" data-cost="Rp 247.000">
-                4. Pontianak → Pangkalan Bun (23-25 Nov)
-                <div class="balloon">
-                    <strong>Quick Stats:</strong><br>Durasi: ~40 jam<br>Biaya: Rp 247.000<br>Highlight: Orangutan
-                </div>
-            </div>
-            <div class="timeline-content">
-                <h3>Kapal: KM Awu</h3>
-                <p><strong>Eksplorasi (3 Hari):</strong> Museum Dayak, klotok cruise Tanjung Puting, feeding orangutan.</p>
-                <p><strong>Biaya Lokal:</strong> Penginapan Rp 600.000, Makan/Transport Rp 270.000, Aktivitas Rp 1.100.000. Total: Rp 1.970.000</p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-header" data-duration="~12 jam" data-cost="Rp 150.000">
-                5. Pangkalan Bun → Banjarmasin (28-29 Nov)
-                <div class="balloon">
-                    <strong>Quick Stats:</strong><br>Durasi: ~12 jam<br>Biaya: Rp 150.000<br>Highlight: Pasar Apung
-                </div>
-            </div>
-            <div class="timeline-content">
-                <h3>Kapal: KM Dharma Kartika 2</h3>
-                <p><strong>Eksplorasi (4 Hari):</strong> Pasar apung Lok Baintan, bamboo rafting Loksado, masjid Banjar.</p>
-                <p><strong>Biaya Lokal:</strong> Penginapan Rp 1.000.000, Makan/Transport Rp 240.000, Aktivitas Rp 330.000. Total: Rp 1.570.000</p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-header" data-duration="~8 jam" data-cost="Rp 100.000">
-                6. Banjarmasin → Balikpapan (3 Des)
-                <div class="balloon">
-                    <strong>Quick Stats:</strong><br>Durasi: ~8 jam<br>Biaya: Rp 100.000<br>Highlight: IKN
-                </div>
-            </div>
-            <div class="timeline-content">
-                <h3>Kapal: KM Dharma Rucitra 1</h3>
-                <p><strong>Eksplorasi (5 Hari):</strong> Istana Garuda IKN, Muara Enggelam cruise, pantai Manggar.</p>
-                <p><strong>Biaya Lokal:</strong> Penginapan Rp 1.250.000, Makan/Transport Rp 500.000, Aktivitas Rp 400.000. Total: Rp 2.150.000</p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-header" data-duration="~12 jam" data-cost="Rp 200.000">
-                7. Balikpapan → Parepare (9-10 Des)
-                <div class="balloon">
-                    <strong>Quick Stats:</strong><br>Durasi: ~12 jam<br>Biaya: Rp 200.000<br>Highlight: Toraja
-                </div>
-            </div>
-            <div class="timeline-content">
-                <h3>Kapal: KM Lambelu</h3>
-                <p><strong>Eksplorasi (4 Hari):</strong> Rumah tongkonan Tana Toraja, gua Londa, desa Kete Kesu.</p>
-                <p><strong>Biaya Lokal:</strong> Penginapan Rp 800.000, Makan/Transport Rp 360.000, Aktivitas Rp 550.000. Total: Rp 1.710.000</p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-header" data-duration="~4 jam" data-cost="Rp 100.000">
-                8. Parepare → Makassar (14 Des)
-                <div class="balloon">
-                    <strong>Quick Stats:</strong><br>Durasi: ~4 jam<br>Biaya: Rp 100.000<br>Highlight: Benteng
-                </div>
-            </div>
-            <div class="timeline-content">
-                <h3>Transport: Bus Darat</h3>
-                <p><strong>Eksplorasi (3 Hari):</strong> Benteng Somba Opu, pelabuhan Paotere, Trans Studio.</p>
-                <p><strong>Biaya Lokal:</strong> Penginapan Rp 900.000, Makan/Transport Rp 180.000, Aktivitas Rp 200.000. Total: Rp 1.280.000</p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-header" data-duration="~49 jam" data-cost="Rp 611.000">
-                9. Makassar → Jakarta (17-19 Des)
-                <div class="balloon">
-                    <strong>Quick Stats:</strong><br>Durasi: ~49 jam<br>Biaya: Rp 611.000<br>Highlight: Pulang
-                </div>
-            </div>
-            <div class="timeline-content">
-                <h3>Kapal: KM Gunung Dempo</h3>
-                <p><strong>Pulang:</strong> Santai di kapal, refleksi petualangan.</p>
-                <p><strong>Biaya Lokal:</strong> Termasuk dalam tiket (Rp 0 tambahan)</p>
-            </div>
-        </div>
+    <div class="legend">
+        <h3>Legenda Rute</h3>
+        <ul>
+            <li><strong>Marker Biru:</strong> Titik Keberangkatan/Tujuan (Klik untuk info segmen)</li>
+            <li><strong>Garis Merah:</strong> Rute Laut Utama (Kapal Pelni/Perintis)</li>
+            <li><strong>Garis Hijau:</strong> Rute Darat Pendek (Bus/Ojek)</li>
+            <li>Total Rute: ~75 Hari, 9 Segmen</li>
+        </ul>
     </div>
 
-    <div class="table-section">
-        <h2>Jadwal Ringkas (Klik untuk Detail)</h2>
-        <table id="travelTable">
-            <thead>
-                <tr>
-                    <th>Segmen</th>
-                    <th>Tanggal</th>
-                    <th>Durasi</th>
-                    <th>Tiket (Rp)</th>
-                    <th>Highlight</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="main-row"><td>1. Jakarta → Jemaja</td><td>5 Nov</td><td>~44 jam</td><td>392.000</td><td>Pantai, Trekking</td></tr>
-                <tr class="detail-row" id="detail-1"><td colspan="5">Durasi Penginapan: 5 malam (Rp 750.000). Aktivitas: Snorkeling (Rp 30k), Trekking (gratis), Boat (Rp 200k). Makan/Transport: Rp 500k. Total Lokal: Rp 1.530k.</td></tr>
-                <tr class="main-row"><td>2. Jemaja → Tambelan</td><td>12 Nov</td><td>~19 jam</td><td>100.000</td><td>Diving, Boat</td></tr>
-                <tr class="detail-row" id="detail-2"><td colspan="5">Durasi Penginapan: 6 malam
+    <footer>
+        &copy; 2025 - ynnadr
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize Map
+        const map = L.map('map').setView([-2.0, 110.0], 5); // Center on Indonesia
+
+        // Add OpenStreetMap Tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Route Points with Coordinates (Approximate Lat/Lng)
+        const points = [
+            { name: 'Jakarta', lat: -6.2088, lng: 106.8456, seg: '1. Start' },
+            { name: 'Jemaja (Letung)', lat: 3.7, lng: 105.5, seg: '2. Jemaja' },
+            { name: 'Tambelan', lat: 3.35, lng: 106.1, seg: '3. Tambelan' },
+            { name: 'Pontianak', lat: 0, lng: 109.35, seg: '4. Pontianak' },
+            { name: 'Pangkalan Bun', lat: -2.7, lng: 111.9, seg: '5. Pangkalan Bun' },
+            { name: 'Banjarmasin', lat: -3.32, lng: 114.59, seg: '6. Banjarmasin' },
+            { name: 'Balikpapan', lat: -1.26, lng: 116.83, seg: '7. Balikpapan' },
+            { name: 'Parepare', lat: -3.97, lng: 119.62, seg: '8. Parepare' },
+            { name: 'Makassar', lat: -5.14, lng: 119.41, seg: '9. Makassar' },
+            { name: 'Jakarta (End)', lat: -6.2088, lng: 106.8456, seg: 'Pulang' }
+        ];
+
+        // Add Markers
+        points.forEach(point => {
+            L.marker([point.lat, point.lng], {
+                icon: L.icon({
+                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                })
+            }).addTo(map)
+            .bindPopup(`<b>${point.name}</b><br>Segmen: ${point.seg}<br>Klik untuk zoom!`);
+        });
+
+        // Add Polyline Route (Red for Sea, Green for Land - Simplified as one line for demo)
+        const routeCoords = points.map(p => [p.lat, p.lng]);
+        L.polyline(routeCoords, {
+            color: 'red',
+            weight: 4,
+            opacity: 0.7,
+            dashArray: '10, 10' // Dashed for sea route feel
+        }).addTo(map).bindPopup('<b>Rute Laut Utama</b><br>Total ~75 hari petualangan!');
+
+        // Fit bounds to show full route
+        map.fitBounds(L.latLngBounds(routeCoords));
+
+        // Mobile: Disable double-tap zoom if needed
+        map.touchZoom.disable();
+    </script>
+</body>
+</html>
