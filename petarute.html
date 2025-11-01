@@ -130,7 +130,7 @@
 </head>
 <body>
     <h1>Peta Rute Interaktif<br>Petualangan Nusantara</h1>
-    <p class="intro">Zoom, pan, dan klik marker untuk detail segmen rute laut/darat. Rute approximate berdasarkan koordinat utama.</p>
+    <p class="intro">Zoom, pan, dan klik garis rute untuk detail waktu tempuh leg. Marker biru untuk titik utama.</p>
     <a href="perjalanan-nusantara.html" class="back-link">← Kembali ke Timeline Perjalanan</a>
 
     <div id="map"></div>
@@ -139,8 +139,8 @@
         <h3>Legenda Rute</h3>
         <ul>
             <li><strong>Marker Biru:</strong> Titik Keberangkatan/Tujuan (Klik untuk info segmen)</li>
-            <li><strong>Garis Merah:</strong> Rute Laut Utama (Kapal Pelni/Perintis)</li>
-            <li><strong>Garis Hijau:</strong> Rute Darat Pendek (Bus/Ojek)</li>
+            <li><strong>Garis Merah:</strong> Rute Laut Utama (Kapal Pelni/Perintis) - Klik untuk jam tempuh</li>
+            <li><strong>Garis Hijau:</strong> Rute Darat Pendek (Bus/Ojek) - Klik untuk jam tempuh</li>
             <li>Total Rute: ~75 Hari, 9 Segmen</li>
         </ul>
     </div>
@@ -159,11 +159,11 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Route Points with Coordinates (Approximate Lat/Lng)
+        // Updated Route Points with Accurate Coordinates
         const points = [
             { name: 'Jakarta', lat: -6.2088, lng: 106.8456, seg: '1. Start' },
-            { name: 'Jemaja (Letung)', lat: 3.7, lng: 105.5, seg: '2. Jemaja' },
-            { name: 'Tambelan', lat: 3.35, lng: 106.1, seg: '3. Tambelan' },
+            { name: 'Jemaja (Letung)', lat: 2.9642, lng: 105.7539, seg: '2. Jemaja' }, // Accurate from search
+            { name: 'Tambelan', lat: 0.9755, lng: 107.5617, seg: '3. Tambelan' }, // Accurate from search
             { name: 'Pontianak', lat: 0, lng: 109.35, seg: '4. Pontianak' },
             { name: 'Pangkalan Bun', lat: -2.7, lng: 111.9, seg: '5. Pangkalan Bun' },
             { name: 'Banjarmasin', lat: -3.32, lng: 114.59, seg: '6. Banjarmasin' },
@@ -188,20 +188,35 @@
             .bindPopup(`<b>${point.name}</b><br>Segmen: ${point.seg}<br>Klik untuk zoom!`);
         });
 
-        // Add Polyline Route (Red for Sea, Green for Land - Simplified as one line for demo)
-        const routeCoords = points.map(p => [p.lat, p.lng]);
-        L.polyline(routeCoords, {
-            color: 'red',
-            weight: 4,
-            opacity: 0.7,
-            dashArray: '10, 10' // Dashed for sea route feel
-        }).addTo(map).bindPopup('<b>Rute Laut Utama</b><br>Total ~75 hari petualangan!');
+        // Route Legs with Durations (Separate Polylines for Each Leg)
+        const legs = [
+            { from: 0, to: 1, duration: '~44 jam', color: 'red' }, // Jakarta → Jemaja
+            { from: 1, to: 2, duration: '~19 jam', color: 'red' }, // Jemaja → Tambelan
+            { from: 2, to: 3, duration: '~16 jam', color: 'red' }, // Tambelan → Pontianak
+            { from: 3, to: 4, duration: '~40 jam', color: 'red' }, // Pontianak → Pangkalan Bun
+            { from: 4, to: 5, duration: '~12 jam', color: 'red' }, // Pangkalan Bun → Banjarmasin
+            { from: 5, to: 6, duration: '~8 jam', color: 'red' }, // Banjarmasin → Balikpapan
+            { from: 6, to: 7, duration: '~12 jam', color: 'red' }, // Balikpapan → Parepare
+            { from: 7, to: 8, duration: '~4 jam (darat)', color: 'green' }, // Parepare → Makassar
+            { from: 8, to: 9, duration: '~49 jam', color: 'red' } // Makassar → Jakarta
+        ];
+
+        // Add Individual Polylines for Each Leg
+        legs.forEach((leg, index) => {
+            const coords = [[points[leg.from].lat, points[leg.from].lng], [points[leg.to].lat, points[leg.to].lng]];
+            L.polyline(coords, {
+                color: leg.color,
+                weight: 4,
+                opacity: 0.8
+            }).addTo(map).bindPopup(`<b>Leg ${index + 1}</b><br>${points[leg.from].name} → ${points[leg.to].name}<br>Waktu Tempuh: ${leg.duration}`);
+        });
 
         // Fit bounds to show full route
-        map.fitBounds(L.latLngBounds(routeCoords));
+        const allCoords = points.map(p => [p.lat, p.lng]);
+        map.fitBounds(L.latLngBounds(allCoords));
 
-        // Mobile: Disable double-tap zoom if needed
-        map.touchZoom.disable();
+        // Mobile: Adjust touch zoom for better experience
+        map.touchZoom.enable();
     </script>
 </body>
 </html>
