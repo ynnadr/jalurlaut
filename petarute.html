@@ -42,6 +42,24 @@
             color: #555;
         }
 
+        .map-link {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: #00796b;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .map-link:hover {
+            background: #f0f8f0;
+        }
+
         /* Compact Timeline: Accordion-Style for Mobile */
         .timeline {
             display: flex;
@@ -317,6 +335,7 @@
 <body>
     <h1>Petualangan Nusantara<br>Rute Laut Epic</h1>
     <p class="intro">Klik header timeline untuk detail segmen.</p>
+    <a href="petarute.html" class="map-link">🗺️ Lihat Peta Rute Interaktif</a>
 
     <div class="timeline">
         <div class="timeline-item">
@@ -462,76 +481,4 @@
                 <tr class="main-row"><td>1. Jakarta → Jemaja</td><td>5 Nov</td><td>~44 jam</td><td>392.000</td><td>Pantai, Trekking</td></tr>
                 <tr class="detail-row" id="detail-1"><td colspan="5">Durasi Penginapan: 5 malam (Rp 750.000). Aktivitas: Snorkeling (Rp 30k), Trekking (gratis), Boat (Rp 200k). Makan/Transport: Rp 500k. Total Lokal: Rp 1.530k.</td></tr>
                 <tr class="main-row"><td>2. Jemaja → Tambelan</td><td>12 Nov</td><td>~19 jam</td><td>100.000</td><td>Diving, Boat</td></tr>
-                <tr class="detail-row" id="detail-2"><td colspan="5">Durasi Penginapan: 6 malam (Rp 1.200k). Aktivitas: Diving (Rp 300k), Boat (Rp 150k). Makan/Transport: Rp 420k. Total: Rp 2.170k.</td></tr>
-                <tr class="main-row"><td>3. Tambelan → Pontianak</td><td>19 Nov</td><td>~16 jam</td><td>150.000</td><td>Khatulistiwa, Pasar</td></tr>
-                <tr class="detail-row" id="detail-3"><td colspan="5">Durasi Penginapan: 3 malam (Rp 600k). Aktivitas: Monumen (Rp 20k), Pasar (Rp 50k). Makan/Transport: Rp 210k. Total: Rp 980k.</td></tr>
-                <tr class="main-row"><td>4. Pontianak → Pangkalan Bun</td><td>23 Nov</td><td>~40 jam</td><td>247.000</td><td>Orangutan, Trek</td></tr>
-                <tr class="detail-row" id="detail-4"><td colspan="5">Durasi Penginapan: 3 malam (Rp 600k). Aktivitas: Klotok (Rp 1.000k). Makan/Transport: Rp 270k. Total: Rp 1.970k.</td></tr>
-                <tr class="main-row"><td>5. Pangkalan Bun → Banjarmasin</td><td>28 Nov</td><td>~12 jam</td><td>150.000</td><td>Pasar Apung, Rafting</td></tr>
-                <tr class="detail-row" id="detail-5"><td colspan="5">Durasi Penginapan: 4 malam (Rp 1.000k). Aktivitas: Pasar (Rp 30k), Rafting (Rp 300k). Makan/Transport: Rp 240k. Total: Rp 1.570k.</td></tr>
-                <tr class="main-row"><td>6. Banjarmasin → Balikpapan</td><td>3 Des</td><td>~8 jam</td><td>100.000</td><td>IKN, Muara Enggelam</td></tr>
-                <tr class="detail-row" id="detail-6"><td colspan="5">Durasi Penginapan: 5 malam (Rp 1.250k). Aktivitas: IKN (Rp 200k), Cruise (Rp 150k). Makan/Transport: Rp 500k. Total: Rp 2.150k.</td></tr>
-                <tr class="main-row"><td>7. Balikpapan → Parepare</td><td>9 Des</td><td>~12 jam</td><td>200.000</td><td>Tana Toraja</td></tr>
-                <tr class="detail-row" id="detail-7"><td colspan="5">Durasi Penginapan: 4 malam (Rp 800k). Aktivitas: Tour Toraja (Rp 500k). Makan/Transport: Rp 360k. Total: Rp 1.710k.</td></tr>
-                <tr class="main-row"><td>8. Parepare → Makassar</td><td>14 Des</td><td>~4 jam</td><td>100.000</td><td>Benteng, Pantai</td></tr>
-                <tr class="detail-row" id="detail-8"><td colspan="5">Durasi Penginapan: 3 malam (Rp 900k). Aktivitas: Benteng (gratis), Studio (Rp 100k). Makan/Transport: Rp 180k. Total: Rp 1.280k.</td></tr>
-                <tr class="main-row"><td>9. Makassar → Jakarta</td><td>17 Des</td><td>~49 jam</td><td>611.000</td><td>Pulang</td></tr>
-                <tr class="detail-row" id="detail-9"><td colspan="5">No penginapan. Santai di kapal. Total Lokal: Rp 0.</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="summary-section">
-        <h2>Summary Total</h2>
-        <div class="summary-grid">
-            <div class="summary-item"><strong>Tiket: Rp 2.150.000</strong></div>
-            <div class="summary-item"><strong>Akomodasi: Rp 6.000.000 (63 malam)</strong></div>
-            <div class="summary-item"><strong>Makan/Transport: Rp 3.000.000</strong></div>
-            <div class="summary-item"><strong>Tour/Aktivitas: Rp 2.500.000</strong></div>
-            <div class="summary-item"><strong>Lain-lain: Rp 500.000</strong></div>
-            <div class="summary-item"><strong>Grand Total: Rp 14.150.000</strong></div>
-            <div class="summary-item"><strong>Sailing: ~12 hari</strong></div>
-            <div class="summary-item"><strong>Eksplorasi: ~63 hari</strong></div>
-        </div>
-    </div>
-
-    <footer>
-        &copy; 2025 - ynnadr
-    </footer>
-
-    <script>
-        // JS for Timeline Accordion (Close others when one is clicked)
-        document.querySelectorAll('.timeline-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const item = header.parentElement;
-                const isActive = item.classList.contains('active');
-                
-                // Close all items
-                document.querySelectorAll('.timeline-item').forEach(ti => ti.classList.remove('active'));
-                
-                // If not already active, open this one
-                if (!isActive) {
-                    item.classList.add('active');
-                }
-            });
-        });
-
-        // Timeline Fade-In (staggered)
-        const timelineItems = document.querySelectorAll('.timeline-item');
-        timelineItems.forEach((item, index) => {
-            item.style.animationDelay = `${index * 0.1}s`;
-            item.style.opacity = '1';
-        });
-
-        // Table Dropdown (as before)
-        document.querySelectorAll('.main-row').forEach(row => {
-            row.addEventListener('click', () => {
-                const detailId = row.nextElementSibling.id;
-                const detailRow = document.getElementById(detailId);
-                document.querySelectorAll('.detail-row').forEach(dr => dr.style.display = 'none');
-                detailRow.style.display = detailRow.style.display === 'table-row' ? 'none' : 'table-row';
-            });
-        });
-    </script>
-</body>
-</html>
+                <tr class="detail-row" id="detail-2"><td colspan="5">Durasi Penginapan: 6 malam
