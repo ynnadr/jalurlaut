@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulasi Perjalanan Laut: Petualangan Nusantara</title>
+    <title>Petualangan Nusantara: Rute Laut Epic</title>
     <style>
         /* Enhanced Mobile-First CSS: Compact, Engaging, Collapsible */
         * {
@@ -27,6 +27,12 @@
             color: #00796b;
             font-size: 1.5rem;
             font-weight: 600;
+            line-height: 1.2;
+        }
+
+        h1 br {
+            display: block;
+            margin: 0;
         }
 
         .intro {
@@ -240,6 +246,16 @@
             border: 1px solid #c8e6c9;
         }
 
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            color: #666;
+            font-size: 0.8rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
         /* Animations for Engagement */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -254,7 +270,12 @@
         .timeline-item:nth-child(1) { animation-delay: 0.1s; }
         .timeline-item:nth-child(2) { animation-delay: 0.2s; }
         .timeline-item:nth-child(3) { animation-delay: 0.3s; }
-        /* Add more as needed */
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(7) { animation-delay: 0.7s; }
+        .timeline-item:nth-child(8) { animation-delay: 0.8s; }
+        .timeline-item:nth-child(9) { animation-delay: 0.9s; }
 
         /* Desktop: Wider Layout */
         @media (min-width: 768px) {
@@ -294,8 +315,8 @@
     </style>
 </head>
 <body>
-    <h1>Petualangan Nusantara: Rute Laut Epic</h1>
-    <p class="intro">Klik header timeline untuk detail segmen. Tabel & summary lebih compact untuk mobile.</p>
+    <h1>Petualangan Nusantara<br>Rute Laut Epic</h1>
+    <p class="intro">Klik header timeline untuk detail segmen.</p>
 
     <div class="timeline">
         <div class="timeline-item">
@@ -438,13 +459,22 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Main rows and details as before, but shortened for compactness -->
                 <tr class="main-row"><td>1. Jakarta → Jemaja</td><td>5 Nov</td><td>~44 jam</td><td>392.000</td><td>Pantai, Trekking</td></tr>
                 <tr class="detail-row" id="detail-1"><td colspan="5">Durasi Penginapan: 5 malam (Rp 750.000). Aktivitas: Snorkeling (Rp 30k), Trekking (gratis), Boat (Rp 200k). Makan/Transport: Rp 500k. Total Lokal: Rp 1.530k.</td></tr>
-                <!-- Repeat for others, shortened -->
                 <tr class="main-row"><td>2. Jemaja → Tambelan</td><td>12 Nov</td><td>~19 jam</td><td>100.000</td><td>Diving, Boat</td></tr>
                 <tr class="detail-row" id="detail-2"><td colspan="5">Durasi Penginapan: 6 malam (Rp 1.200k). Aktivitas: Diving (Rp 300k), Boat (Rp 150k). Makan/Transport: Rp 420k. Total: Rp 2.170k.</td></tr>
-                <!-- ... (shorten all details similarly for space) -->
+                <tr class="main-row"><td>3. Tambelan → Pontianak</td><td>19 Nov</td><td>~16 jam</td><td>150.000</td><td>Khatulistiwa, Pasar</td></tr>
+                <tr class="detail-row" id="detail-3"><td colspan="5">Durasi Penginapan: 3 malam (Rp 600k). Aktivitas: Monumen (Rp 20k), Pasar (Rp 50k). Makan/Transport: Rp 210k. Total: Rp 980k.</td></tr>
+                <tr class="main-row"><td>4. Pontianak → Pangkalan Bun</td><td>23 Nov</td><td>~40 jam</td><td>247.000</td><td>Orangutan, Trek</td></tr>
+                <tr class="detail-row" id="detail-4"><td colspan="5">Durasi Penginapan: 3 malam (Rp 600k). Aktivitas: Klotok (Rp 1.000k). Makan/Transport: Rp 270k. Total: Rp 1.970k.</td></tr>
+                <tr class="main-row"><td>5. Pangkalan Bun → Banjarmasin</td><td>28 Nov</td><td>~12 jam</td><td>150.000</td><td>Pasar Apung, Rafting</td></tr>
+                <tr class="detail-row" id="detail-5"><td colspan="5">Durasi Penginapan: 4 malam (Rp 1.000k). Aktivitas: Pasar (Rp 30k), Rafting (Rp 300k). Makan/Transport: Rp 240k. Total: Rp 1.570k.</td></tr>
+                <tr class="main-row"><td>6. Banjarmasin → Balikpapan</td><td>3 Des</td><td>~8 jam</td><td>100.000</td><td>IKN, Muara Enggelam</td></tr>
+                <tr class="detail-row" id="detail-6"><td colspan="5">Durasi Penginapan: 5 malam (Rp 1.250k). Aktivitas: IKN (Rp 200k), Cruise (Rp 150k). Makan/Transport: Rp 500k. Total: Rp 2.150k.</td></tr>
+                <tr class="main-row"><td>7. Balikpapan → Parepare</td><td>9 Des</td><td>~12 jam</td><td>200.000</td><td>Tana Toraja</td></tr>
+                <tr class="detail-row" id="detail-7"><td colspan="5">Durasi Penginapan: 4 malam (Rp 800k). Aktivitas: Tour Toraja (Rp 500k). Makan/Transport: Rp 360k. Total: Rp 1.710k.</td></tr>
+                <tr class="main-row"><td>8. Parepare → Makassar</td><td>14 Des</td><td>~4 jam</td><td>100.000</td><td>Benteng, Pantai</td></tr>
+                <tr class="detail-row" id="detail-8"><td colspan="5">Durasi Penginapan: 3 malam (Rp 900k). Aktivitas: Benteng (gratis), Studio (Rp 100k). Makan/Transport: Rp 180k. Total: Rp 1.280k.</td></tr>
                 <tr class="main-row"><td>9. Makassar → Jakarta</td><td>17 Des</td><td>~49 jam</td><td>611.000</td><td>Pulang</td></tr>
                 <tr class="detail-row" id="detail-9"><td colspan="5">No penginapan. Santai di kapal. Total Lokal: Rp 0.</td></tr>
             </tbody>
@@ -465,12 +495,24 @@
         </div>
     </div>
 
+    <footer>
+        &copy; 2025 - ynnadr
+    </footer>
+
     <script>
-        // JS for Timeline Accordion
+        // JS for Timeline Accordion (Close others when one is clicked)
         document.querySelectorAll('.timeline-header').forEach(header => {
             header.addEventListener('click', () => {
                 const item = header.parentElement;
-                item.classList.toggle('active');
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                document.querySelectorAll('.timeline-item').forEach(ti => ti.classList.remove('active'));
+                
+                // If not already active, open this one
+                if (!isActive) {
+                    item.classList.add('active');
+                }
             });
         });
 
@@ -481,7 +523,7 @@
             item.style.opacity = '1';
         });
 
-        // Table Dropdown (as before, but compact)
+        // Table Dropdown (as before)
         document.querySelectorAll('.main-row').forEach(row => {
             row.addEventListener('click', () => {
                 const detailId = row.nextElementSibling.id;
