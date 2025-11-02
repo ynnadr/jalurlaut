@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Petualangan Nusantara: Rute Laut Epic</title>
     <style>
+        /* ... (CSS di atas bagian footer tidak berubah) ... */
+
         /* Enhanced Mobile-First CSS: Compact, Engaging, Collapsible */
         * {
             margin: 0;
@@ -66,7 +68,7 @@
 
         h1 {
             text-align: center;
-            margin-bottom: 5px; /* Disesuaikan untuk info trip */
+            margin-bottom: 5px;
             color: #ffffff;
             font-size: 1.8rem;
             font-weight: 600;
@@ -79,7 +81,6 @@
             margin: 0;
         }
 
-        /* === NEW: Total Trip Info Style === */
         .trip-summary-header {
             font-size: 1.1rem;
             font-weight: 500;
@@ -326,13 +327,27 @@
             border: 1px solid #c8e6c9;
         }
 
-        /* Footer */
+        /* === MODIFIKASI FOOTER === */
         footer {
+            /* Hapus padding lama */
+            padding: 0; 
+            /* Tambahkan min-height agar gambar latar terlihat */
+            min-height: 150px; 
+            /* Gunakan flexbox untuk menempatkan konten di bawah */
+            display: flex;
+            align-items: flex-end; /* Konten ke bawah */
+            justify-content: center; /* Konten di tengah horizontal */
             text-align: center;
-            padding: 30px 15px;
             color: #e0e0e0;
             font-size: 0.9rem;
+            /* Pastikan konten di dalam background-section memiliki tinggi penuh */
         }
+        
+        footer .container {
+            width: 100%;
+            padding: 15px; /* Tambahkan kembali padding ke container */
+        }
+        /* ========================= */
 
         /* Animations */
         @keyframes fadeInUp {
@@ -345,7 +360,6 @@
             opacity: 0;
         }
 
-        /* Staggered delays... */
         .timeline-item:nth-child(1) { animation-delay: 0.1s; } .timeline-item:nth-child(2) { animation-delay: 0.2s; }
         .timeline-item:nth-child(3) { animation-delay: 0.3s; } .timeline-item:nth-child(4) { animation-delay: 0.4s; }
         .timeline-item:nth-child(5) { animation-delay: 0.5s; } .timeline-item:nth-child(6) { animation-delay: 0.6s; }
@@ -371,7 +385,7 @@
     </style>
 </head>
 <body>
-    <!-- === PERUBAHAN DI HEADER === -->
+    <!-- === BAGIAN HEADER (TIDAK BERUBAH) === -->
     <header id="hero-section" class="background-section">
         <div class="container">
             <h1>Petualangan Nusantara<br>Rute Laut Epic</h1>
@@ -382,7 +396,7 @@
         </div>
     </header>
 
-    <!-- === KONTEN UTAMA (TIDAK ADA PERUBAHAN) === -->
+    <!-- ... (Bagian Timeline dan Table dihilangkan untuk keringkasan, tetapi diasumsikan tetap sama) ... -->
     <section class="content-section">
         <div class="container">
             <div class="timeline">
@@ -432,34 +446,27 @@
         </div>
     </section>
 
-    <!-- === PERUBAHAN DI SUMMARY TOTAL === -->
+    <!-- === BAGIAN SUMMARY (TIDAK BERUBAH) === -->
     <section class="content-section">
         <div class="container">
             <div class="summary-section">
                 <h2>Summary Total</h2>
                 <div class="summary-grid">
                     <div class="summary-item"><strong>Tiket: Rp 2.150.000</strong></div>
-                    <!-- FIX: Total Akomodasi/Malam: 5+6+3+3+4+5+4+3+0 = 33 malam (Hanya penginapan darat) -->
-                    <!-- FIX: Total Akomodasi Biaya: 750k+1200k+600k+600k+1000k+1250k+800k+900k = Rp 7.100.000 -->
                     <div class="summary-item"><strong>Akomodasi: Rp 7.100.000 (33 malam)</strong></div> 
-                    <!-- FIX: Total Makan/Transport: 500k+420k+210k+270k+240k+500k+360k+180k = Rp 2.680.000 (Kurang dari Rp 3jt) -->
                     <div class="summary-item"><strong>Makan/Transport: Rp 2.680.000</strong></div> 
-                    <!-- FIX: Total Tour/Aktivitas: 280k+550k+170k+1100k+330k+400k+550k+200k = Rp 3.580.000 (Lebih dari Rp 2.5jt) -->
                     <div class="summary-item"><strong>Tour/Aktivitas: Rp 3.580.000</strong></div>
                     <div class="summary-item"><strong>Lain-lain: Rp 500.000</strong></div>
-                    <!-- FIX: Grand Total: 2150k + 7100k + 2680k + 3580k + 500k = Rp 16.010.000 -->
                     <div class="summary-item"><strong>Grand Total: Rp 16.010.000</strong></div> 
-                    <!-- FIX: Sailing: 200 jam / 24 = 8.33 hari -->
                     <div class="summary-item"><strong>Sailing: ~8.5 hari (200 jam)</strong></div> 
-                    <!-- FIX: Eksplorasi: 5+6+3+3+4+5+4+3 = 33 hari (Menggunakan hari eksplorasi dari timeline) -->
                     <div class="summary-item"><strong>Eksplorasi: ~33 hari</strong></div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- === AKHIR PERUBAHAN SUMMARY TOTAL === -->
 
-    <footer>
+    <!-- === BAGIAN FOOTER BARU === -->
+    <footer class="background-section">
         <div class="container">
             <p>&copy; 2025 - ynnadr</p>
         </div>
