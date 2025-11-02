@@ -45,7 +45,6 @@
             z-index: 2;
         }
 
-        /* === Image extensions changed to .png === */
         #hero-section {
             background-image: url('images/hero-background.png');
         }
@@ -57,8 +56,6 @@
         footer {
             background-image: url('images/footer-background.png');
         }
-        /* === END MODIFICATION === */
-
 
         /* === Content Section Styling (for non-background parts) === */
         .content-section {
@@ -69,11 +66,11 @@
         h1 {
             text-align: center;
             margin-bottom: 20px;
-            color: #ffffff; /* Adjusted for background */
-            font-size: 1.8rem; /* Increased size */
+            color: #ffffff;
+            font-size: 1.8rem;
             font-weight: 600;
             line-height: 1.2;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Added shadow for readability */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         h1 br {
@@ -84,11 +81,11 @@
         .intro {
             text-align: center;
             margin-bottom: 20px;
-            font-size: 1rem; /* Increased size */
-            color: #f0f0f0; /* Adjusted for background */
+            font-size: 1rem;
+            color: #f0f0f0;
         }
 
-        /* Compact Timeline: Accordion-Style for Mobile */
+        /* Compact Timeline */
         .timeline {
             display: flex;
             flex-direction: column;
@@ -135,7 +132,7 @@
         }
 
         .timeline-item.active .timeline-content {
-            max-height: 500px; /* Adjust based on content */
+            max-height: 500px;
             padding: 15px;
         }
 
@@ -185,7 +182,7 @@
             opacity: 1;
         }
 
-        /* Table Section: Compact & Scrollable */
+        /* Table Section */
         .table-section {
             margin: 20px 0;
             overflow-x: auto;
@@ -202,12 +199,6 @@
             border-bottom: 1px solid #e0e0e0;
         }
         
-        /* Modified h2 inside background section */
-        .background-section h2 {
-            color: #ffffff;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -218,11 +209,12 @@
             padding: 10px 8px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
+            color: #333; /* <<< FIX: Ensures table text is dark */
         }
 
         th {
             background-color: #00796b;
-            color: white;
+            color: white; /* This overrides the rule above for headers */
             font-weight: 500;
         }
 
@@ -264,7 +256,7 @@
             color: #00796b;
         }
 
-        /* Summary Section: Card Grid, Mobile Stack */
+        /* Summary Section */
         .summary-section {
             margin: 20px 0;
             background: white;
@@ -302,11 +294,11 @@
         footer {
             text-align: center;
             padding: 30px 15px;
-            color: #e0e0e0; /* Adjusted for background */
-            font-size: 0.9rem; /* Increased size */
+            color: #e0e0e0;
+            font-size: 0.9rem;
         }
 
-        /* Animations for Engagement */
+        /* Animations */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -317,7 +309,6 @@
             opacity: 0;
         }
 
-        /* Staggered animation delays */
         .timeline-item:nth-child(1) { animation-delay: 0.1s; }
         .timeline-item:nth-child(2) { animation-delay: 0.2s; }
         .timeline-item:nth-child(3) { animation-delay: 0.3s; }
@@ -334,8 +325,8 @@
         /* Desktop: Wider Layout */
         @media (min-width: 768px) {
             body {
-                padding: 0; /* Removed body padding */
-                max-width: 100%; /* Full width */
+                padding: 0;
+                max-width: 100%;
                 margin: 0 auto;
             }
 
@@ -347,7 +338,6 @@
                 padding: 60px 20px;
             }
 
-            /* Max width container for content inside sections */
             .container {
                 max-width: 1200px;
                 margin: 0 auto;
@@ -369,7 +359,7 @@
             }
 
             .summary-grid {
-                grid-template-columns: repeat(3, 1fr); /* Changed to 3 columns on desktop */
+                grid-template-columns: repeat(3, 1fr);
             }
 
             table {
@@ -591,7 +581,7 @@
     </footer>
 
     <script>
-        // JS for Timeline Accordion (Close others when one is clicked)
+        // JS for Timeline Accordion
         document.querySelectorAll('.timeline-header').forEach(header => {
             header.addEventListener('click', () => {
                 const item = header.parentElement;
@@ -611,31 +601,27 @@
                 const detailRow = row.nextElementSibling;
                 const isVisible = detailRow.style.display === 'table-row';
                 
-                // Close all other detail rows
                 document.querySelectorAll('.detail-row').forEach(dr => {
                     dr.style.display = 'none';
                 });
                 
-                // Toggle the clicked one
                 if (!isVisible) {
                     detailRow.style.display = 'table-row';
                 }
             });
         });
 
-        // Improved Fade-In Animation on Scroll - more efficient than the original
+        // Animation on Scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Start animation when element is in view
                     entry.target.style.animationPlayState = 'running';
-                    observer.unobserve(entry.target); // Optional: Stop observing after it has animated once
+                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.timeline-item, .table-section, .summary-section').forEach(el => {
-            // Set animation to paused initially
             el.style.animationPlayState = 'paused';
             observer.observe(el);
         });
