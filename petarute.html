@@ -47,7 +47,9 @@
             <li><strong>Garis Merah:</strong> Rute Laut Utama (Kapal Pelni/Perintis) - Klik untuk jam tempuh</li>
             <li><strong>Garis Hijau:</strong> Rute Darat Pendek (Bus/Ojek) - Klik untuk jam tempuh</li>
             <li><strong>🚢 Kapal Animasi:</strong> Gerakan sepanjang rute saat tombol ditekan</li>
-            <li>Total Rute: ~75 Hari, 9 Segmen</li>
+            <!-- === PERUBAHAN DI SINI === -->
+            <li>Total Durasi Trip: **45 Hari**, 9 Segmen</li>
+            <!-- ========================= -->
         </ul>
     </div>
 
@@ -96,49 +98,37 @@
               .bindPopup(`<b>Leg ${index + 1}</b><br>${points[leg.from].name} → ${points[leg.to].name}<br>Waktu Tempuh: ${leg.duration}`);
         });
 
-        // === MODIFIKASI JAVASCRIPT: LOGIKA ANIMASI LANJUT/JEDA ===
-
         const shipIcon = L.divIcon({ className: 'ship-icon', html: '🚢', iconSize: [30, 30], iconAnchor: [15, 15] });
         const animationBtn = document.getElementById('animationBtn');
 
-        let shipMarker = null; // Kapal dimulai dari null/kosong
+        let shipMarker = null;
         let animationInterval = null;
         let isAnimating = false;
         
-        // Variabel Status Persisten
         let currentLeg = 0;
         let progress = 0;
 
         function resetAnimation() {
-            // Hapus kapal jika ada
             if (shipMarker) {
                 shipMarker.remove();
                 shipMarker = null;
             }
-            // Reset status
             currentLeg = 0;
             progress = 0;
             isAnimating = false;
-            // Kembalikan tombol ke keadaan awal
             animationBtn.innerHTML = '🚢 Mulai Animasi Gerakan Kapal';
         }
 
         function toggleAnimation() {
             if (currentLeg >= legs.length) {
-                // Jika sudah selesai, reset dulu sebelum memulai
                 resetAnimation();
-                // Setelah direset, proses akan lanjut ke blok `if (!isAnimating)`
             }
             
             if (isAnimating) {
-                // --- JIKA SEDANG BERJALAN, MAKA JEDA/STOP ---
                 clearInterval(animationInterval);
                 animationBtn.innerHTML = '▶️ Lanjut Animasi Kapal';
                 isAnimating = false;
             } else {
-                // --- JIKA TIDAK BERJALAN, MAKA MULAI/LANJUT ---
-                
-                // Jika ini adalah start pertama, inisialisasi marker kapal
                 if (!shipMarker) {
                     shipMarker = L.marker([points[0].lat, points[0].lng], { icon: shipIcon }).addTo(map);
                     shipMarker.setPopupContent(`<b>Leg ${currentLeg + 1}</b><br>Menuju ${points[legs[currentLeg].to].name}`).openPopup();
@@ -147,13 +137,10 @@
                 animationBtn.innerHTML = '⏸️ Jeda Animasi Kapal';
                 isAnimating = true;
                 
-                // Map panTo ke posisi kapal saat ini (melanjutkan dari titik berhenti)
                 map.panTo(shipMarker.getLatLng(), { animate: true, duration: 0.5 });
                 
-                // Mulai Interval
                 animationInterval = setInterval(() => {
                     if (currentLeg >= legs.length) {
-                        // Selesai
                         clearInterval(animationInterval);
                         shipMarker.setPopupContent('<b>Selesai!</b><br>Perjalanan berakhir.').openPopup();
                         animationBtn.innerHTML = '🔁 Ulangi Animasi';
@@ -165,29 +152,25 @@
                     const start = [points[leg.from].lat, points[leg.from].lng];
                     const end = [points[leg.to].lat, points[leg.to].lng];
 
-                    // Logika Interpolasi
                     const lat = start[0] + (end[0] - start[0]) * progress;
                     const lng = start[1] + (end[1] - start[1]) * progress;
 
                     shipMarker.setLatLng([lat, lng]);
-                    map.panTo([lat, lng], { animate: true, duration: 0.05 }); // Durasi pan diperpendek
+                    map.panTo([lat, lng], { animate: true, duration: 0.05 });
 
-                    progress += 0.01; // Kecepatan animasi
-
+                    progress += 0.01;
+                    
                     if (progress >= 1) {
-                        // Pindah ke leg berikutnya
                         progress = 0;
                         currentLeg++;
                         if (currentLeg < legs.length) {
-                            // Update popup kapal ke rute baru
                             shipMarker.setPopupContent(`<b>Leg ${currentLeg + 1}</b><br>Menuju ${points[legs[currentLeg].to].name}`).openPopup();
                         }
                     }
-                }, 50); // Interval pembaruan
+                }, 50);
             }
         }
 
-        // Setup awal
         const allCoords = points.map(p => [p.lat, p.lng]);
         map.fitBounds(L.latLngBounds(allCoords));
         map.touchZoom.enable();
