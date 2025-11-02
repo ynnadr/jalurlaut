@@ -6,150 +6,37 @@
     <title>Peta Rute Interaktif: Petualangan Nusantara</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* Mobile-First CSS for Map Page */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
-            min-height: 100vh;
-            padding: 10px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #00796b;
-            font-size: 1.5rem;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        h1 br {
-            display: block;
-            margin: 0;
-        }
-
-        .intro {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        .back-link, .animate-btn {
-            display: block;
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-decoration: none;
-            color: #00796b;
-            font-weight: 500;
-            transition: background 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .animate-btn {
-            background: linear-gradient(90deg, #00796b 0%, #004d40 100%);
-            color: white;
-            margin: 10px auto;
-            width: 200px;
-            font-size: 1rem;
-        }
-
-        .animate-btn:hover, .back-link:hover {
-            background: #f0f8f0;
-        }
-
-        .animate-btn:hover {
-            background: #004d40;
-        }
-
-        #map {
-            height: 60vh;
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .legend {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin-top: 10px;
-        }
-
-        .legend h3 {
-            color: #00796b;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .legend ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .legend li {
-            margin-bottom: 8px;
-            padding-left: 20px;
-            position: relative;
-            font-size: 0.9rem;
-        }
-
-        .legend li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: #00796b;
-            font-size: 1.2rem;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 15px;
-            color: #666;
-            font-size: 0.8rem;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        /* Desktop Enhancements */
+        /* CSS tetap sama, tidak ada perubahan di sini */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); min-height: 100vh; padding: 10px; }
+        h1 { text-align: center; margin-bottom: 20px; color: #00796b; font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+        h1 br { display: block; margin: 0; }
+        .intro { text-align: center; margin-bottom: 20px; font-size: 0.9rem; color: #555; }
+        .back-link, .animate-btn { display: block; text-align: center; margin-bottom: 20px; padding: 10px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-decoration: none; color: #00796b; font-weight: 500; transition: background 0.3s; border: none; cursor: pointer; }
+        .animate-btn { background: linear-gradient(90deg, #00796b 0%, #004d40 100%); color: white; margin: 10px auto; width: 250px; /* Increased width for longer text */ font-size: 1rem; }
+        .animate-btn:hover, .back-link:hover { background: #f0f8f0; }
+        .animate-btn:hover { background: #004d40; }
+        #map { height: 60vh; width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .legend { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 10px; }
+        .legend h3 { color: #00796b; margin-bottom: 10px; font-size: 1.1rem; }
+        .legend ul { list-style: none; padding: 0; }
+        .legend li { margin-bottom: 8px; padding-left: 20px; position: relative; font-size: 0.9rem; }
+        .legend li::before { content: '•'; position: absolute; left: 0; color: #00796b; font-size: 1.2rem; }
+        footer { text-align: center; margin-top: 30px; padding: 15px; color: #666; font-size: 0.8rem; border-top: 1px solid #e0e0e0; }
         @media (min-width: 768px) {
-            body {
-                padding: 20px;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            #map {
-                height: 70vh;
-            }
-
-            .animate-btn {
-                width: 250px;
-            }
+            body { padding: 20px; max-width: 1200px; margin: 0 auto; }
+            h1 { font-size: 2rem; }
+            #map { height: 70vh; }
         }
     </style>
 </head>
 <body>
     <h1>Peta Rute Interaktif<br>Petualangan Nusantara</h1>
     <p class="intro">Zoom, pan, dan klik garis rute untuk detail waktu tempuh leg. Marker biru untuk titik utama. Klik tombol untuk animasi kapal!</p>
-    <button class="animate-btn" onclick="startAnimation()">🚢 Mulai Animasi Gerakan Kapal</button>
+    
+    <!-- === MODIFIKASI HTML: Menambahkan id dan mengubah onclick === -->
+    <button id="animationBtn" class="animate-btn" onclick="toggleAnimation()">🚢 Mulai Animasi Gerakan Kapal</button>
+    
     <a href="index.html" class="back-link">← Kembali ke Timeline Perjalanan</a>
 
     <div id="map"></div>
@@ -171,15 +58,11 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Initialize Map
-        const map = L.map('map').setView([-2.0, 110.0], 5); // Center on Indonesia
-
-        // Add OpenStreetMap Tiles
+        // Data peta tetap sama
+        const map = L.map('map').setView([-2.0, 110.0], 5);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-
-        // Updated Route Points with Accurate Coordinates
         const points = [
             { name: 'Jakarta', lat: -6.2088, lng: 106.8456, seg: '1. Start' },
             { name: 'Jemaja (Letung)', lat: 2.9642, lng: 105.7539, seg: '2. Jemaja' },
@@ -192,107 +75,95 @@
             { name: 'Makassar', lat: -5.14, lng: 119.41, seg: '9. Makassar' },
             { name: 'Jakarta (End)', lat: -6.2088, lng: 106.8456, seg: 'Pulang' }
         ];
-
-        // Add Markers
         points.forEach(point => {
             L.marker([point.lat, point.lng], {
                 icon: L.icon({
                     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
                     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    popupAnchor: [1, -34],
-                    shadowSize: [41, 41]
+                    iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
                 })
-            }).addTo(map)
-            .bindPopup(`<b>${point.name}</b><br>Segmen: ${point.seg}<br>Klik untuk zoom!`);
+            }).addTo(map).bindPopup(`<b>${point.name}</b><br>Segmen: ${point.seg}`);
         });
-
-        // Route Legs with Durations (Separate Polylines for Each Leg)
         const legs = [
-            { from: 0, to: 1, duration: '~44 jam', color: 'red' }, // Jakarta → Jemaja
-            { from: 1, to: 2, duration: '~19 jam', color: 'red' }, // Jemaja → Tambelan
-            { from: 2, to: 3, duration: '~16 jam', color: 'red' }, // Tambelan → Pontianak
-            { from: 3, to: 4, duration: '~40 jam', color: 'red' }, // Pontianak → Pangkalan Bun
-            { from: 4, to: 5, duration: '~12 jam', color: 'red' }, // Pangkalan Bun → Banjarmasin
-            { from: 5, to: 6, duration: '~8 jam', color: 'red' }, // Banjarmasin → Balikpapan
-            { from: 6, to: 7, duration: '~12 jam', color: 'red' }, // Balikpapan → Parepare
-            { from: 7, to: 8, duration: '~4 jam (darat)', color: 'green' }, // Parepare → Makassar
-            { from: 8, to: 9, duration: '~49 jam', color: 'red' } // Makassar → Jakarta
+            { from: 0, to: 1, duration: '~44 jam', color: 'red' }, { from: 1, to: 2, duration: '~19 jam', color: 'red' },
+            { from: 2, to: 3, duration: '~16 jam', color: 'red' }, { from: 3, to: 4, duration: '~40 jam', color: 'red' },
+            { from: 4, to: 5, duration: '~12 jam', color: 'red' }, { from: 5, to: 6, duration: '~8 jam', color: 'red' },
+            { from: 6, to: 7, duration: '~12 jam', color: 'red' }, { from: 7, to: 8, duration: '~4 jam (darat)', color: 'green' },
+            { from: 8, to: 9, duration: '~49 jam', color: 'red' }
         ];
-
-        let polylines = []; // Store polylines for animation
-
-        // Add Individual Polylines for Each Leg
         legs.forEach((leg, index) => {
             const coords = [[points[leg.from].lat, points[leg.from].lng], [points[leg.to].lat, points[leg.to].lng]];
-            const polyline = L.polyline(coords, {
-                color: leg.color,
-                weight: 4,
-                opacity: 0.8
-            }).addTo(map).bindPopup(`<b>Leg ${index + 1}</b><br>${points[leg.from].name} → ${points[leg.to].name}<br>Waktu Tempuh: ${leg.duration}`);
-            polylines.push(polyline);
+            L.polyline(coords, { color: leg.color, weight: 4, opacity: 0.8 }).addTo(map)
+              .bindPopup(`<b>Leg ${index + 1}</b><br>${points[leg.from].name} → ${points[leg.to].name}<br>Waktu Tempuh: ${leg.duration}`);
         });
 
-        // Ship Icon for Animation (Custom Icon with Boat Emoji)
-        const shipIcon = L.divIcon({
-            className: 'ship-icon',
-            html: '🚢',
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
-        });
+        // === MODIFIKASI JAVASCRIPT: LOGIKA ANIMASI ===
 
-        let shipMarker; // Will hold the moving ship
+        const shipIcon = L.divIcon({ className: 'ship-icon', html: '🚢', iconSize: [30, 30], iconAnchor: [15, 15] });
+        const animationBtn = document.getElementById('animationBtn');
+
+        let shipMarker;
         let animationInterval;
-        let currentLeg = 0;
-        let progress = 0; // 0 to 1 for each leg
+        let isAnimating = false; // Variabel baru untuk melacak status
 
-        function startAnimation() {
-            if (animationInterval) clearInterval(animationInterval); // Reset if running
-
-            // Start at Jakarta
-            shipMarker = L.marker([points[0].lat, points[0].lng], { icon: shipIcon }).addTo(map);
-            map.panTo([points[0].lat, points[0].lng]);
-
-            currentLeg = 0;
-            progress = 0;
-
-            // Animate through legs
-            animationInterval = setInterval(() => {
-                if (currentLeg >= legs.length) {
-                    clearInterval(animationInterval);
-                    shipMarker.setPopupContent('<b>Selesai!</b><br>Kembali ke Jakarta. Total ~75 hari.').openPopup();
-                    return;
+        function toggleAnimation() {
+            if (isAnimating) {
+                // --- JIKA SEDANG BERJALAN, MAKA HENTIKAN ---
+                clearInterval(animationInterval);
+                if (shipMarker) {
+                    shipMarker.remove(); // Hapus kapal dari peta
+                }
+                animationBtn.innerHTML = '🚢 Mulai Animasi Gerakan Kapal';
+                isAnimating = false;
+            } else {
+                // --- JIKA TIDAK BERJALAN, MAKA MULAI ---
+                if (shipMarker) {
+                    shipMarker.remove(); // Hapus sisa kapal jika ada dari run sebelumnya
                 }
 
-                const leg = legs[currentLeg];
-                const start = [points[leg.from].lat, points[leg.from].lng];
-                const end = [points[leg.to].lat, points[leg.to].lng];
+                shipMarker = L.marker([points[0].lat, points[0].lng], { icon: shipIcon }).addTo(map);
+                map.panTo([points[0].lat, points[0].lng]);
+                
+                animationBtn.innerHTML = '⏹️ Stop Animasi Kapal';
+                isAnimating = true;
 
-                // Interpolate position
-                const lat = start[0] + (end[0] - start[0]) * progress;
-                const lng = start[1] + (end[1] - start[1]) * progress;
+                let currentLeg = 0;
+                let progress = 0;
 
-                shipMarker.setLatLng([lat, lng]);
-                map.panTo([lat, lng], { animate: true, duration: 0.5 });
-
-                progress += 0.01; // Speed: adjust for slower/faster
-
-                if (progress >= 1) {
-                    progress = 0;
-                    currentLeg++;
-                    if (currentLeg < legs.length) {
-                        shipMarker.setPopupContent(`<b>Leg ${currentLeg + 1}</b><br>Menuju ${points[legs[currentLeg].to].name}<br>Estimasi: ${legs[currentLeg].duration}`).openPopup();
+                animationInterval = setInterval(() => {
+                    if (currentLeg >= legs.length) {
+                        clearInterval(animationInterval);
+                        shipMarker.setPopupContent('<b>Selesai!</b><br>Perjalanan berakhir.').openPopup();
+                        animationBtn.innerHTML = '🔁 Ulangi Animasi'; // Teks setelah selesai
+                        isAnimating = false;
+                        return;
                     }
-                }
-            }, 100); // Update every 100ms for smooth animation
+
+                    const leg = legs[currentLeg];
+                    const start = [points[leg.from].lat, points[leg.from].lng];
+                    const end = [points[leg.to].lat, points[leg.to].lng];
+
+                    const lat = start[0] + (end[0] - start[0]) * progress;
+                    const lng = start[1] + (end[1] - start[1]) * progress;
+
+                    shipMarker.setLatLng([lat, lng]);
+                    map.panTo([lat, lng], { animate: true, duration: 0.1 });
+
+                    progress += 0.02; // Kecepatan animasi, bisa disesuaikan
+
+                    if (progress >= 1) {
+                        progress = 0;
+                        currentLeg++;
+                        if (currentLeg < legs.length) {
+                            shipMarker.setPopupContent(`<b>Leg ${currentLeg + 1}</b><br>Menuju ${points[legs[currentLeg].to].name}`).openPopup();
+                        }
+                    }
+                }, 50); // Interval pembaruan, sesuaikan untuk kehalusan vs performa
+            }
         }
 
-        // Fit bounds to show full route
         const allCoords = points.map(p => [p.lat, p.lng]);
         map.fitBounds(L.latLngBounds(allCoords));
-
-        // Mobile: Adjust touch zoom for better experience
         map.touchZoom.enable();
     </script>
 </body>
